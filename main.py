@@ -11,9 +11,9 @@ class Query_hero(BaseModel):
 
 
 class Post_heros(BaseModel):
-    name: str = None
+    name: str = | None = None
     secret_name: str 
-    age: int = None
+    age: int = | None = None
 
 app = FastAPI()
 

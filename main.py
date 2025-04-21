@@ -20,14 +20,15 @@ app = FastAPI()
 
 @app.post("/add_heros")
 async def root_add_heros(hero: Post_heros):
-    add_heros(hero)
+    hero_dict = hero.dict()
+    await add_heros(hero_dict)
     return {"message": "Hero added successfully"}
 
 
 @app.get("/list_heros")
-async def list_heros(limit: int = 10):
-    heros = show_all_heros()
-    return heros
+async def list_heros():
+    heros = await  show_all_heros()
+    return {"all heros": heros}
 
 #  app.get("/super hero/")
 #  async def get_parameter(parameter: Super_Heros):

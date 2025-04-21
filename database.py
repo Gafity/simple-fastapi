@@ -9,21 +9,20 @@ class Hero(SQLModel, table=True):
     age: Optional[int] = None
 
 
-async def add_heros(heros_list: dict):
+async def add_heros(hero_data: dict):
     engine = create_engine("sqlite:///data-base-hero.db")
     
     with Session(engine) as session:
         try:
-            for hero in heros_list:
-                data_hero = Hero(name=hero.name, secret_name=hero.secret_name, age=hero.age)
-                session.add(data_hero)
+            hero = Hero(**hero_data)
+            session.add(hero)
             session.commit()
 
-        except Erro as error:
+        except Exception as error:
             print(f"Erro: {error}")
             session.rollback()
 
-async def show_all_heros() -> dict:
+async def show_all_heros():
     engine = create_engine("sqlite:///data-base-hero.db")
 
     with Session(engine) as session:
@@ -31,7 +30,9 @@ async def show_all_heros() -> dict:
             statement = select(Hero)
             results = session.exec(statement)
             heros = results.all()
+            print(heros)
             return heros
 
-        except expression as identifier:
+        except Exception as identifier:
             print(f"error na funcao show_all_heros\nErro {identifier}")
+
